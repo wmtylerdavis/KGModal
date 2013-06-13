@@ -71,6 +71,15 @@ NSString *const KGModalGradientViewTapped = @"KGModalGradientViewTapped";
     }
 }
 
+-(BOOL)setShowCloseButton:(BOOL)showCloseButton onCompletion:(void (^)(void))completion
+{
+    if(_showCloseButton != showCloseButton){
+        _showCloseButton = showCloseButton;
+        [self.closeButton setHidden:!self.showCloseButton];
+    }
+    return YES;
+}
+
 - (void)showWithContentView:(UIView *)contentView{
     [self showWithContentView:contentView andAnimated:YES];
 }
@@ -147,6 +156,9 @@ NSString *const KGModalGradientViewTapped = @"KGModalGradientViewTapped";
 }
 
 - (void)closeAction:(id)sender{
+    if (self.shouldUseCompletion) {
+        [self hideAnimated:YES withCompletionBlock:self.completionBlock];
+    }
     [self hideAnimated:self.animateWhenDismissed];
 }
 
@@ -194,6 +206,11 @@ NSString *const KGModalGradientViewTapped = @"KGModalGradientViewTapped";
             }];
         }];
     });
+}
+
+- (void)closeWithCompletionBlock:(void(^)())completion{
+    self.shouldUseCompletion = YES;
+    self.completionBlock = completion;
 }
 
 - (void)cleanup{
