@@ -12,7 +12,6 @@ typedef NS_ENUM(NSUInteger, KGModalBackgroundDisplayStyle){
     KGModalBackgroundDisplayStyleGradient,
     KGModalBackgroundDisplayStyleSolid
 };
-typedef void (^Completion)();
 
 @interface KGModal : NSObject
 
@@ -40,12 +39,6 @@ typedef void (^Completion)();
 // Defaults to YES, only applies to iOS5
 @property (nonatomic) BOOL shouldRotate;
 
-// Determines if closing should use the completion block
-@property(nonatomic) BOOL shouldUseCompletion;
-
-// Store the completion block for use after close
-@property (copy) Completion completionBlock;
-
 // The shared instance of the modal
 + (instancetype)sharedInstance;
 
@@ -65,9 +58,6 @@ typedef void (^Completion)();
 // Hide the modal with animations
 - (void)hide;
 
-// Set the close button to close with a completion block
--(BOOL)setShowCloseButton:(BOOL)showCloseButton onCompletion:(void (^)(void))completion;
-
 // Hide the modal with animations,
 // run the completion after the modal is hidden
 - (void)hideWithCompletionBlock:(void(^)())completion;
@@ -78,9 +68,5 @@ typedef void (^Completion)();
 // Hide the modal and whether the modal should animate away,
 // run the completion after the modal is hidden
 - (void)hideAnimated:(BOOL)animated withCompletionBlock:(void(^)())completion;
-
-// Close the modal with close button,
-// run the completion after the modal is hidden
-- (void)closeWithCompletionBlock:(void(^)())completion;
 
 @end
